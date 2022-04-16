@@ -4,10 +4,7 @@
 # https://www.xmodulo.com/simulate-key-press-mouse-movement-linux.html
 
 # need to have minecraft version number to help narrow down windows
-minecraft=$(xdotool search --name "Minecraft 1.18.2")
-echo "Got window:" $minecraft
-
-xdotool windowactivate $minecraft
+xdotool search --name "Minecraft 1.18.2" windowactivate
 # unpause the game
 xdotool key Escape
 # give game time to unpause
