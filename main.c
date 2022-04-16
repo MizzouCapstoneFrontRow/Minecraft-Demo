@@ -6,7 +6,7 @@ void mouseX(const double value)
 {
     char command[100];
     int speed = (int)(value*100);
-    snprintf("xdotool mousemove_relative %d 0", 100, speed);
+    snprintf(command, 100, "xdotool mousemove_relative -- %d 0", speed);
     system(command);
 }
 
@@ -14,7 +14,7 @@ void mouseY(const double value)
 {
     char command[100];
     int speed = (int)(value*100);
-    snprintf("xdotool mousemove_relative 0 %d", 100, speed);
+    snprintf(command, 100, "xdotool mousemove_relative -- 0 %d", speed);
     system(command);
 }
 
