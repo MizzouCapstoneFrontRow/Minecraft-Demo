@@ -54,9 +54,11 @@ int main() {
     RegisterAxis(handle, "strafing", -1.0, 1.0, "Movement", "x", wsMove);
     RegisterAxis(handle, "forwardback", -1.0, 1.0, "Movement", "z", adMove);
 
-    ConnectToServer(handle, "192.168.1.7", 45575);
+    RegisterStream(handle, "game view", "mjpeg", 0);
 
-    while(true) {
+    ConnectToServer(handle, "192.168.0.8", 45575, 45577);
+
+    while(1) {
         LibraryUpdate(handle);
     }
 
