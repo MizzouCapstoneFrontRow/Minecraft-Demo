@@ -58,6 +58,14 @@ void inventory(const double value)
         system("xdotool keyup e");
 }
 
+void switch_item(const double value)
+{
+    if(value > DEADZONE)
+        system("xdotool click 5");
+    if(value < -DEADZONE)
+        system("xdotool click 4");
+}
+
 int main() {
     // get minecraft
     system("xdotool search --name \"Minecraft 1.18.2\" windowactivate");
@@ -74,6 +82,7 @@ int main() {
     RegisterAxis(handle, "mouseButtons", -1.0, 1.0, "Mouse Buttons", "x", mouseButtons);
 
     RegisterAxis(handle, "inventory", -1.0, 1.0, "Inventory", "z", inventory);
+    RegisterAxis(handle, "itemswitch", -1.0, 1.0, "Switch Item", "z", inventory);
 
     RegisterAxis(handle, "strafing", -1.0, 1.0, "Movement", "x", adMove);
     RegisterAxis(handle, "forwardback", -1.0, 1.0, "Movement", "z", wsMove);
