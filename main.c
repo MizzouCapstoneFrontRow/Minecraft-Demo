@@ -40,6 +40,16 @@ void adMove(const double value)
         system("xdotool keyup d keyup a");
 }
 
+void mouseButtons(const double value)
+{
+    if(value > DEADZONE)
+        system("xdotool mouseup 1 mousedown 3");
+    else if(value < -DEADZONE)
+        system("xdotool mouseup 3 mousedown 1");
+    else
+        system("xdotool mouseup 1 mouseup 3");
+}
+
 int main() {
     // get minecraft
     system("xdotool search --name \"Minecraft 1.18.2\" windowactivate");
@@ -52,6 +62,8 @@ int main() {
 
     RegisterAxis(handle, "mouseX", -1.0, 1.0, "Mouse Look", "x", mouseX);
     RegisterAxis(handle, "mouseY", -1.0, 1.0, "Mouse Look", "z", mouseY);
+
+    RegisterAxis(handle, "mouseButtons", -1.0, 1.0, "Mouse Buttons", "x", mouseButtons);
 
     RegisterAxis(handle, "strafing", -1.0, 1.0, "Movement", "x", adMove);
     RegisterAxis(handle, "forwardback", -1.0, 1.0, "Movement", "z", wsMove);
