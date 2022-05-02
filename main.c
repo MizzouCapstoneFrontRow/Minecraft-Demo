@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "client.h"
 
+#define DEADZONE 0.4
+
 void mouseX(const double value)
 {
     char command[100];
@@ -20,9 +22,9 @@ void mouseY(const double value)
 
 void wsMove(const double value)
 {
-    if(value > 0.5)
+    if(value > DEADZONE)
         system("xdotool keyup s keydown w");
-    else if(value < -0.5)
+    else if(value < -DEADZONE)
         system("xdotool keyup w keydown s");
     else
         system("xdotool keyup w keyup s");
@@ -30,9 +32,9 @@ void wsMove(const double value)
 
 void adMove(const double value)
 {
-    if(value > 0.5)
+    if(value > DEADZONE)
         system("xdotool keyup a keydown d");
-    else if(value < -0.5)
+    else if(value < -DEADZONE)
         system("xdotool keyup d keydown a");
     else
         system("xdotool keyup d keyup a");
