@@ -53,8 +53,8 @@ int main() {
     RegisterAxis(handle, "mouseX", -1.0, 1.0, "Mouse Look", "x", mouseX);
     RegisterAxis(handle, "mouseY", -1.0, 1.0, "Mouse Look", "z", mouseY);
 
-    RegisterAxis(handle, "strafing", -1.0, 1.0, "Movement", "x", wsMove);
-    RegisterAxis(handle, "forwardback", -1.0, 1.0, "Movement", "z", adMove);
+    RegisterAxis(handle, "strafing", -1.0, 1.0, "Movement", "x", adMove);
+    RegisterAxis(handle, "forwardback", -1.0, 1.0, "Movement", "z", wsMove);
 
     RegisterStream(handle, "game view", "mjpeg", 0);
 
