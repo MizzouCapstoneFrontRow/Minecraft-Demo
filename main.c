@@ -50,6 +50,14 @@ void mouseButtons(const double value)
         system("xdotool mouseup 1 mouseup 3");
 }
 
+void inventory(const double value)
+{
+    if(value > DEADZONE || value < -DEADZONE)
+        system("xdotool keydown e");
+    else
+        system("xdotool keyup e");
+}
+
 int main() {
     // get minecraft
     system("xdotool search --name \"Minecraft 1.18.2\" windowactivate");
@@ -64,6 +72,8 @@ int main() {
     RegisterAxis(handle, "mouseY", -1.0, 1.0, "Mouse Look", "z", mouseY);
 
     RegisterAxis(handle, "mouseButtons", -1.0, 1.0, "Mouse Buttons", "x", mouseButtons);
+
+    RegisterAxis(handle, "inventory", -1.0, 1.0, "Inventory", "z", inventory);
 
     RegisterAxis(handle, "strafing", -1.0, 1.0, "Movement", "x", adMove);
     RegisterAxis(handle, "forwardback", -1.0, 1.0, "Movement", "z", wsMove);
