@@ -3,20 +3,23 @@
 #include "client.h"
 
 #define DEADZONE 0.4
+static int speedX = 0;
+static int speedY = 0;
 
-void mouseX(const double value)
-{
-    char command[100];
-    int speed = (int)(value*100);
-    snprintf(command, 100, "xdotool mousemove_relative -- %d 0", speed);
-    system(command);
+void mouseX(const double value) {
+    speedX = (int)(value*100);
+    if (value < DEADZONE && value > -DEADZONE) speedX = 0;
 }
 
-void mouseY(const double value)
+void mouseY(const double value) {
+    speedY = (int)(-value*100);
+    if (value < DEADZONE && value > -DEADZONE) speedY = 0;
+}
+
+void updateMouse(void)
 {
     char command[100];
-    int speed = (int)(-value*100);
-    snprintf(command, 100, "xdotool mousemove_relative -- 0 %d", speed);
+    snprintf(command, 100, "xdotool mousemove_relative -- %d %d", speedX, speedY);
     system(command);
 }
 
