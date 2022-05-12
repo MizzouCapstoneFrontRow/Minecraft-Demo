@@ -50,12 +50,24 @@ void mouseButtons(const double value)
         system("xdotool mouseup 1 mouseup 3");
 }
 
+int inv = 0;
+
 void inventory(const double value)
 {
     if(value > DEADZONE || value < -DEADZONE)
-        system("xdotool keydown e");
+    {
+	    if(inv == 0)
+		{
+		    system("xdotool key e");
+		    inv = 1;
+	}
+}
     else
-        system("xdotool keyup e");
+    {
+	if(inv == 1)
+		{
+        system("xdotool key e");
+	inv = 0;}}
 }
 
 void switch_item(const double value)
