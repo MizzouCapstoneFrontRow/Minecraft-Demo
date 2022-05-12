@@ -78,7 +78,13 @@ void switch_item(const double value)
         system("xdotool click 4");
 }
 
+void error(enum ErrorCode code, const char *msg) {
+    fprintf(stderr, "error (%d): %s\n", code, msg);
+}
+
 int main() {
+    enum ErrorCode result = NoError;
+
     // get minecraft
     system("xdotool search --name \"Minecraft 1.18.2\" windowactivate");
     // unpause the game
@@ -86,26 +92,44 @@ int main() {
 
     ClientHandle handle = InitializeLibrary();
 
-    SetName(handle, "Minecraft Demo");
+    result = SetName(handle, "Minecraft Demo");
+    if (result != NoError) error(result, "SetName");
 
-    RegisterAxis(handle, "mouseX", -1.0, 1.0, "Mouse Look", "x", mouseX);
-    RegisterAxis(handle, "mouseY", -1.0, 1.0, "Mouse Look", "z", mouseY);
+    result = RegisterAxis(handle, "mouseX", -1.0, 1.0, "Mouse Look", "x", mouseX);
+    if (result != NoError) error(result, "RegisterAxis");
+    result = RegisterAxis(handle, "mouseY", -1.0, 1.0, "Mouse Look", "z", mouseY);
+    if (result != NoError) error(result, "RegisterAxis");
 
-    RegisterAxis(handle, "mouseButtons", -1.0, 1.0, "Mouse Buttons", "x", mouseButtons);
+    result = RegisterAxis(handle, "mouseButtons", -1.0, 1.0, "Mouse Buttons", "x", mouseButtons);
+    if (result != NoError) error(result, "RegisterAxis");
 
-    RegisterAxis(handle, "inventory", -1.0, 1.0, "Inventory", "z", inventory);
-    RegisterAxis(handle, "itemswitch", -1.0, 1.0, "Switch Item", "z", inventory);
+    result = RegisterAxis(handle, "inventory", -1.0, 1.0, "Inventory", "z", inventory);
+    if (result != NoError) error(result, "RegisterAxis");
+    result = RegisterAxis(handle, "itemswitch", -1.0, 1.0, "Switch Item", "z", switch_item);
+    if (result != NoError) error(result, "RegisterAxis");
 
-    RegisterAxis(handle, "strafing", -1.0, 1.0, "Movement", "x", adMove);
-    RegisterAxis(handle, "forwardback", -1.0, 1.0, "Movement", "z", wsMove);
+    result = RegisterAxis(handle, "strafing", -1.0, 1.0, "Movement", "x", adMove);
+    if (result != NoError) error(result, "RegisterAxis");
+    result = RegisterAxis(handle, "forwardback", -1.0, 1.0, "Movement", "z", wsMove);
+    if (result != NoError) error(result, "RegisterAxis");
 
-    RegisterStream(handle, "game view", "mjpeg", 0);
+    result = RegisterStream(handle, "game view", "mjpeg", 0);
+    if (result != NoError) error(result, "RegisterStream");
 
-    ConnectToServer(handle, "192.168.0.8", 45575, 45577);
-
-    while(1) {
-        LibraryUpdate(handle);
+    result = ConnectToServer(handle, "127.0.0.1", 45575, 45577);
+    if (result != NoError) {
+        error(result, "ConnectToServer");
+        goto end;
     }
 
+    while(1) {
+        result = LibraryUpdate(handle);
+        if (result != NoError) {
+            error(result, "LibraryUpdate");
+            break;
+        }
+    }
+
+    end:
     ShutdownLibrary(handle);
 }
